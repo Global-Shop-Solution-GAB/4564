@@ -1,0 +1,842 @@
+Program.Sub.ScreenSU.Start
+Gui.FrmKA..Create
+Gui.FrmKA..Size(15360,10695)
+Gui.FrmKA..MinX(15360)
+Gui.FrmKA..MinY(10695)
+Gui.FrmKA..Position(0,0)
+Gui.FrmKA..BackColor(-2147483633)
+Gui.FrmKA..MousePointer(0)
+Gui.FrmKA..Event(UnLoad,FrmKA_UnLoad)
+Gui.FrmKA..Caption("Open Job Review - KA")
+Gui.FrmKA.GsGCKA.Create(GsGridControl)
+Gui.FrmKA.GsGCKA.Size(15195,9255)
+Gui.FrmKA.GsGCKA.Position(15,1110)
+Gui.FrmKA.GsGCKA.Event(RowCellClick,GsGridControlKA_RowCellClick)
+Gui.FrmKA.GsGCKA.Event(CellValueChanged,GsGridControlKA_CellValueChanged)
+Gui.FrmKA.pbStatus.Create(ProgressBar)
+Gui.FrmKA.pbStatus.Size(3735,255)
+Gui.FrmKA.pbStatus.Position(60,360)
+Gui.FrmKA.lblStatus.Create(Label,"****Change****",False,3735,255,0,60,120,True,0,"Arial",8,-2147483633,0)
+Gui.FrmKA.picGSSLogo.Create(PictureBox)
+Gui.FrmKA.picGSSLogo.Size(4125,960)
+Gui.FrmKA.picGSSLogo.Position(5520,45)
+Gui.FrmKA.picGSSLogo.Event(DblClick,picGSSLogo_DblClick)
+Gui.FrmKA.picGSSLogo.ToolTip("Double-Click for additional functions")
+Gui.FrmKA.framePermissions.Create(Frame)
+Gui.FrmKA.framePermissions.Size(1965,390)
+Gui.FrmKA.framePermissions.Position(13080,555)
+Gui.FrmKA.optView.Create(Option)
+Gui.FrmKA.optView.Size(690,195)
+Gui.FrmKA.optView.Position(225,150)
+Gui.FrmKA.optView.Caption("View")
+Gui.FrmKA.optView.BackColor(15790320)
+Gui.FrmKA.optView.ForeColor(0)
+Gui.FrmKA.optView.Parent("framePermissions")
+Gui.FrmKA.optEdit.Create(Option)
+Gui.FrmKA.optEdit.Enabled(False)
+Gui.FrmKA.optEdit.Size(690,195)
+Gui.FrmKA.optEdit.Position(1050,150)
+Gui.FrmKA.optEdit.Caption("Edit")
+Gui.FrmKA.optEdit.Parent("framePermissions")
+Gui.FrmKA.frameButtons.Create(Frame)
+Gui.FrmKA.frameButtons.Size(1965,600)
+Gui.FrmKA.frameButtons.Position(13080,75)
+Gui.FrmKA.cmdRefresh.Create(Button)
+Gui.FrmKA.cmdRefresh.Size(840,375)
+Gui.FrmKA.cmdRefresh.Position(90,165)
+Gui.FrmKA.cmdRefresh.Caption("REFRESH")
+Gui.FrmKA.cmdRefresh.Event(Click,cmdRefresh_Click)
+Gui.FrmKA.cmdRefresh.Parent("frameButtons")
+Gui.FrmKA.cmdExport.Create(Button)
+Gui.FrmKA.cmdExport.Size(840,375)
+Gui.FrmKA.cmdExport.Position(1035,150)
+Gui.FrmKA.cmdExport.Caption("Export")
+Gui.FrmKA.cmdExport.Event(Click,cmdExport_Click)
+Gui.FrmKA.cmdExport.Parent("frameButtons")
+Gui.frmWeb..Create
+Gui.frmWeb..Caption("Global Shop Solutions - Web Sites")
+Gui.frmWeb..Size(3990,2025)
+Gui.frmWeb..MinX(0)
+Gui.frmWeb..MinY(0)
+Gui.frmWeb..Position(0,0)
+Gui.frmWeb..BackColor(-2147483633)
+Gui.frmWeb..MousePointer(0)
+Gui.frmWeb..MaxButton(False)
+Gui.frmWeb..Sizeable(False)
+Gui.frmWeb..Event(UnLoad,frmWeb_UnLoad)
+Gui.frmWeb..MinButton(False)
+Gui.frmWeb.cmdGSS.Create(Button)
+Gui.frmWeb.cmdGSS.Size(3615,375)
+Gui.frmWeb.cmdGSS.Position(120,45)
+Gui.frmWeb.cmdGSS.Caption("Global Shop Solutions")
+Gui.frmWeb.cmdGSS.Event(Click,cmdGSS_Click)
+Gui.frmWeb.cmdServ.Create(Button)
+Gui.frmWeb.cmdServ.Size(3615,375)
+Gui.frmWeb.cmdServ.Position(120,450)
+Gui.frmWeb.cmdServ.Caption("ServiceWeb")
+Gui.frmWeb.cmdServ.Event(Click,cmdServ_Click)
+Gui.frmWeb.cmdUpd.Create(Button)
+Gui.frmWeb.cmdUpd.Size(3615,375)
+Gui.frmWeb.cmdUpd.Position(120,855)
+Gui.frmWeb.cmdUpd.Caption("GSS Updates")
+Gui.frmWeb.cmdUpd.Event(Click,cmdUpd_Click)
+Gui.frmWeb.cmdResetGsGC.Create(Button)
+Gui.frmWeb.cmdResetGsGC.Size(3615,375)
+Gui.frmWeb.cmdResetGsGC.Position(120,1260)
+Gui.frmWeb.cmdResetGsGC.Caption("Reset All Columns")
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+V.Global.bLoadData.Declare(Boolean)
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+V.Local.bEditGrp.Declare
+V.Local.sIcon.Declare
+V.Local.sGssLogo.Declare
+
+F.Intrinsic.String.Build("{0}\GAB\GAS\gss2.ico",V.Caller.PluginsDir,v.Local.sIcon)
+F.Intrinsic.String.Build("{0}\GAB\GAS\GAB_GSS_Logo_Green_Dash.png",V.Caller.PluginsDir,V.Local.sGssLogo)
+Gui.frmWeb..Icon(V.Local.sIcon)
+Gui.frmKA..Icon(V.Local.sIcon)
+Gui.frmKA.picGSSLogo.Picture(V.Local.sGssLogo)
+
+F.Intrinsic.Control.CallSub(setanchors)
+
+Gui.frmKA.optEdit.Value(False)
+Gui.frmKA.optView.Value(True)
+
+'Check User Permissions
+F.Global.Security.IsInGroup(v.Caller.User,"EditWO",V.Local.bEditGrp)
+F.Intrinsic.Control.If(v.Local.bEditGrp,=,True)
+	Gui.frmKA.optEdit.Enabled(true)
+F.Intrinsic.Control.EndIf
+
+'F.ODBC.Connection!con.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass,300)
+V.Local.sCon.Declare(String)
+'Remove _ if it is not within your DSNs.
+F.Intrinsic.String.Concat("Global_",V.Caller.CompanyCode,V.Local.sCon)
+F.ODBC.Connection!con.OpenConnection(V.Local.sCon,"Master","master")
+
+Gui.frmKA..Show
+F.Intrinsic.Control.BlockEvents
+f.Intrinsic.Control.CallSub(lockscreen)
+f.Intrinsic.Control.CallSub(checkTable)
+f.Intrinsic.Control.CallSub(loaddtdvKA)
+F.Intrinsic.Control.CallSub(Deserialize)
+f.Intrinsic.Control.CallSub(enablescreen)
+F.Intrinsic.Control.UnBlockEvents
+
+F.Intrinsic.Control.Catch
+	F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End 
+F.Intrinsic.Control.EndTry
+Program.Sub.Main.End
+
+Program.Sub.FrmKA_UnLoad.Start
+F.Intrinsic.Control.Try
+V.Local.sError.Declare
+	
+F.Intrinsic.Control.If(V.Global.bLoadData)
+	F.Intrinsic.Control.CallSub(Serialize)
+F.Intrinsic.Control.EndIf
+	
+F.ODBC.Connection!con.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.Catch
+	F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End 
+F.Intrinsic.Control.EndTry
+Program.Sub.FrmKA_UnLoad.End
+
+Program.Sub.setAnchors.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+'0 - None
+'1 - Top
+'2 - Bottom
+'4 - Left
+'8 - Right
+'Add Numbers for combinations
+
+Gui.FrmKA.GsGCKA.Anchor(15)
+Gui.FrmKA.picGSSLogo.Anchor(1)
+Gui.FrmKA.frameButtons.Anchor(9)
+Gui.FrmKA.framePermissions.Anchor(9)
+Gui.FrmKA.frameLeg.Anchor(9)
+
+F.Intrinsic.Control.Catch
+	F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End 
+F.Intrinsic.Control.EndTry
+Program.Sub.setAnchors.End
+
+Program.Sub.loaddtdvKA.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+v.Local.iProgress.Declare
+v.Local.iCnt.Declare
+v.Local.sJob.Declare
+v.Local.sSfx.Declare
+v.Local.iFor.Declare
+v.Local.iOne.Declare
+v.Local.sMaterial.Declare
+v.Local.iCount.Declare
+v.Local.iMult.Declare
+V.Local.sSQL.Declare
+v.Local.sret.declare
+
+F.Intrinsic.Control.If(V.DataTable.dtKA.Exists)
+	F.Data.DataTable.Close("dtKA")
+F.Intrinsic.Control.EndIf
+
+V.Global.bLoadData.Set(True)
+
+'jgp start replace sql to add bringing in priority and move olddate lookup to end of the statement
+'F.Intrinsic.String.Build("SELECT DISTINCT CASE WHEN (SELECT TOP 1 GIR.RUN FROM GAB_INV_RECURR GIR WHERE GIR.PART = A.PART AND GIR.LOCATION = A.LOCATION) > 0 THEN '' ELSE 'X' END AS FIRST,CASE WHEN  FLAG_WO_PRTD = 'R' OR FLAG_WO_PRTD = 'Y' THEN CONVERT(1,SQL_BIT) ELSE CONVERT(0,SQL_BIT) END AS FLAG_WO_PRTD,C.NAME_CUSTOMER,A.JOB,A.SUFFIX,CUSTOMER_PO,PART,DESCRIPTION,(SELECT TOP 1 VOH.DATE_ORDER FROM V_ORDER_TO_WO VOW LEFT JOIN V_ORDER_HEADER VOH ON VOH.ORDER_NO = VOW.ORDER_NO WHERE VOW.JOB = A.JOB AND VOW.SUFFIX = A.SUFFIX) AS PODT,(A.QTY_ORDER - A.QTY_COMPLETED) AS QTY_LEFT,DATE_DUE,(SELECT TOP 1 OLD_DUE_DATE FROM GAB_WO_OLDDT GWO WHERE GWO.JOB = A.JOB and GWO.SUFFIX = A.SUFFIX) AS oldDate,'' AS {0}1{0},'' AS {0}2{0},'' AS {0}3{0},'' AS {0}4{0},'' AS {0}5{0},'' AS {0}6{0},'' AS {0}7{0},'' AS {0}8{0},'' AS {0}9{0},'' AS {0}10{0},'' AS seqRes,'' AS NOTES,B.USER_6 AS 'WO_NOTE',LOCATION,PARENT_WO,PARENT_SUFFIX_PARENT,CONCAT(A.JOB,A.SUFFIX) AS JBSF FROM V_JOB_HEADER A LEFT JOIN V_WO_USER_FLDS B ON A.JOB = B.JOB AND A.SUFFIX = B.SUFFIX LEFT JOIN V_CUSTOMER_MASTER C ON A.CUSTOMER = C.CUSTOMER WHERE DATE_CLOSED = '1900-1-1';",V.Ambient.DblQuote,V.Local.sSQL)
+F.Intrinsic.String.Build("SELECT DISTINCT CASE WHEN  FLAG_WO_PRTD = 'R' OR FLAG_WO_PRTD = 'Y' THEN CONVERT(1,SQL_BIT) ELSE CONVERT(0,SQL_BIT) END AS FLAG_WO_PRTD,C.NAME_CUSTOMER,A.JOB,A.SUFFIX,CUSTOMER_PO,PART,DESCRIPTION, PRIORITY,(SELECT TOP 1 VOH.DATE_ORDER FROM V_ORDER_TO_WO VOW LEFT JOIN V_ORDER_HEADER VOH ON VOH.ORDER_NO = VOW.ORDER_NO WHERE VOW.JOB = A.JOB AND VOW.SUFFIX = A.SUFFIX) AS PODT,(A.QTY_ORDER - A.QTY_COMPLETED) AS QTY_LEFT,DATE_DUE,'' AS {0}1{0},'' AS {0}2{0},'' AS {0}3{0},'' AS {0}4{0},'' AS {0}5{0},'' AS {0}6{0},'' AS {0}7{0},'' AS {0}8{0},'' AS {0}9{0},'' AS {0}10{0},'' AS seqRes,'' AS NOTES,B.USER_6 AS 'WO_NOTE',LOCATION,PARENT_WO,PARENT_SUFFIX_PARENT,CONCAT(A.JOB,A.SUFFIX) AS JBSF FROM V_JOB_HEADER A LEFT JOIN V_WO_USER_FLDS B ON A.JOB = B.JOB AND A.SUFFIX = B.SUFFIX LEFT JOIN V_CUSTOMER_MASTER C ON A.CUSTOMER = C.CUSTOMER WHERE DATE_CLOSED = '1900-1-1';",V.Ambient.DblQuote,V.Local.sSQL)
+'jgp end
+F.Data.DataTable.CreateFromSQL("dtKA","con",V.Local.sSQL,true)
+
+'added the Product line and router description to the datatable
+f.Data.DataTable.AddColumn("dtKA","PRODUCT_LINE","string", "")
+f.Data.DataTable.AddColumn("dtKA","RTR_DESC","string", "")
+
+F.Data.Dictionary.CreateFromSQL("dNotes","con","SELECT CONCAT(JOB,SUFFIX) AS JBSF, RTRIM(NOTES) AS NOTES FROM GAB_4169_WO_NOTES;")
+F.Data.Dictionary.SetDefaultReturn("dNotes","")
+F.Data.DataTable.FillFromDictionary("dtKA","dNotes","JBSF","NOTES")
+F.Data.Dictionary.Close("dNotes")
+
+Gui.FrmKA.lblStatus.Visible(True)
+Gui.FrmKA.pbStatus.Visible(True)
+Gui.FrmKA.lblStatus.Caption("Loading Work Orders....")
+Gui.FrmKA.pbStatus.Min(0)
+Gui.FrmKA.pbStatus.Max(V.DataTable.dtKA.RowCount)
+
+F.Intrinsic.Control.For(V.Local.iCnt,0,V.DataTable.dtKA.RowCount--,1)
+	f.Intrinsic.String.Build("select top 1 APS.seqres From APSV3_JBLines APS where seqType = '2' and APS.JOB = '{0}' and APS.SFX = '{1}' ORDER by APS.SEQ",v.datatable.dtKA(v.Local.iCnt).JOB!fieldValString,V.datatable.dtKA(v.Local.iCnt).SUFFIX!fieldvalString,v.Local.sSQL)
+	f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sMaterial)
+
+	f.Intrinsic.Math.Add(v.Local.iProgress,1,v.Local.iProgress)
+	Gui.FrmKA.pbStatus.Value(v.Local.iProgress)
+
+	'jgp start - remove/replace sql
+	'f.Intrinsic.String.Build("Select TOP 10 SeqRes AS PART, IF(ComplDate IS NULL,'','Y') AS FLAG_CLOSED From APSV3_JBLines Where (SeqType = '1' OR SeqType='3') and JOB = '{0}' and SFX = '{1}' Order by JOB, SFX, SEQ",v.datatable.dtKA(v.Local.iCnt).JOB!FieldValTrim,V.dataTable.dtKA(v.Local.iCnt).SUFFIX!fieldValTrim,v.Local.sSQL)
+	 f.Intrinsic.String.Build("Select TOP 10 SeqRes AS PART, IF(ComplDate IS not NULL,'Y',if(convert(left(duedate,10),sql_date) < curdate(),'L',' ')) AS FLAG_CLOSED From APSV3_JBLines Where (SeqType = '1' OR SeqType='3') and JOB = '{0}' and SFX = '{1}' Order by JOB, SFX, SEQ",v.datatable.dtKA(v.Local.iCnt).JOB!FieldValTrim,V.dataTable.dtKA(v.Local.iCnt).SUFFIX!fieldValTrim,v.Local.sSQL)
+	
+	f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sSQL)
+	f.Intrinsic.String.Replace(v.Local.sSQL,"#$#","*!*",v.Local.sSQL)
+	f.Intrinsic.String.Split(v.Local.sSQL,"*!*",v.Local.sSQL)
+	f.Intrinsic.Control.For(v.Local.iFor,0,18,2)
+
+		f.Intrinsic.Math.Add(v.Local.iFor,1,v.Local.iOne)
+
+		f.Intrinsic.Control.If(v.Local.sSQL(v.Local.iFor),=,"OOB")
+			v.Local.sSQL.RedimPreserve(0,19)
+
+			f.Intrinsic.Control.For(v.Local.iCount,v.Local.iFor,18,2)
+				v.Local.sSQL(v.Local.iCount).Set("")
+			f.Intrinsic.Control.Next(v.Local.iCount)
+			f.Intrinsic.Control.ExitFor(v.Local.iFor)
+
+		f.Intrinsic.Control.EndIf
+
+		f.Intrinsic.Control.If(v.Local.sSQL(v.Local.iOne),=,"Y")
+			f.Intrinsic.String.Build("#{0}",v.Local.sSQL(v.Local.iFor),v.Local.sSQL(v.Local.iFor))
+		f.Intrinsic.Control.EndIf
+		'jgp start code to prefix the late operation with !
+		f.Intrinsic.Control.If(v.Local.sSQL(v.Local.iOne),=,"L")
+			f.Intrinsic.String.Build("!{0}",v.Local.sSQL(v.Local.iFor),v.Local.sSQL(v.Local.iFor))
+		f.Intrinsic.Control.EndIf
+		'jgp end
+	f.Intrinsic.Control.Next(v.Local.iFor)
+	F.data.dataTable.SetValue("dtKA",v.Local.iCnt,"1",v.Local.sSQL(0),"2",v.Local.sSQL(2),"3",v.Local.sSQL(4),"4",v.Local.sSQL(6),"5",v.Local.sSQL(8),"6",v.Local.sSQL(10),"7",v.Local.sSQL(12),"8",v.Local.sSQL(14),"9",v.Local.sSQL(16),"10",v.Local.sSQL(18),"seqRes",v.Local.sMaterial)
+	
+	'Modifications added for 4564, get the product line for each part and display it as a new column
+	f.Intrinsic.String.Build("select  PRODUCT_LINE from V_JOB_HEADER where JOB = '{0}' and SUFFIX = '{1}'",v.datatable.dtKA(v.Local.iCnt).JOB!fieldValString,v.datatable.dtKA(v.Local.iCnt).SUFFIX!fieldValString,v.Local.ssql)
+	f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sret)
+	'set the value in the datatable
+	F.Data.DataTable.SetValue("dtKA",v.Local.iCnt,"PRODUCT_LINE",v.Local.sret)
+	'Modifications added for 4564, get the product line for each part and display it as a new column
+	f.Intrinsic.String.Build("select  DESCRIPTION as RTR_DESC from V_JOB_HEADER where JOB = '{0}' and SUFFIX = '{1}'",v.datatable.dtKA(v.Local.iCnt).JOB!fieldValString,v.datatable.dtKA(v.Local.iCnt).SUFFIX!fieldValString,v.Local.ssql)
+	f.ODBC.Connection!con.ExecuteAndReturn(v.Local.sSQL,v.Local.sret)
+	'set the value for the router desc in the datatable
+	F.Data.DataTable.SetValue("dtKA",v.Local.iCnt,"RTR_DESC",v.Local.sret)
+f.Intrinsic.Control.Next(v.Local.iCnt)
+
+F.Data.DataView.Create("dtKA","dvKA")
+
+F.Intrinsic.Control.CallSub(loadgvka)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.loaddtdvKA.End
+
+Program.Sub.loadGVKA.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+v.Local.iCnt.Declare
+v.Local.iNum.Declare
+v.Local.sTemp.Declare
+v.Local.iCol.Declare
+v.Local.iCycle.Declare
+V.Local.sRegistry.Declare
+
+Gui.FrmKA.GsGCKA.AddGridViewFromDataView("gvKA","dtKA","dvKA")
+
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","MultiSelect",True)
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","AllowSort",True)
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","AllowFilter",True)
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","OptionsDetailShowDetailTabs",False)
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","OptionsViewShowGroupPanel",True)
+Gui.FrmKA.GsGCKA.SetGridViewProperty("gvKA","EnableAppearanceOddRow",True)
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","LOCATION","VISIBLE",False)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PARENT_WO","VISIBLE",False)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PARENT_SUFFIX_PARENT","VISIBLE",False)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JBSF","VISIBLE",False)
+
+'for each of these column properties, set product line and router desc to be like the others
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","FLAG_WO_PRTD","Caption","Printed")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NAME_cUSTOMER","Caption","Customer Name")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","Caption","Job")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","Caption","Suf.")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRODUCT_LINE","Caption","PL")
+'jgp start
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRIORITY","Caption","PRI")
+'jgp end
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","CUSTOMER_PO","Caption","PO Number")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","Caption","Part (F/G)")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","Caption","Description")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","RTR_DESC","Caption","Router Description")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","Caption","PO Dt")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","QTY_LEFT","Caption","Qty Rem")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","Caption","WO Due Dt")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","1","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","2","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","3","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","4","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","5","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","6","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","7","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","8","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","9","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","10","Caption","")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","seqRes","Caption","First Material")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","WO_NOTE","Caption","Work Order Note(70 Characters)")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NOTES","Caption","Notes")
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","FLAG_WO_PRTD","MinWidth","42")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NAME_cUSTOMER","MinWidth","200")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","MinWidth","47")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","MinWidth","27")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRODUCT_LINE","MinWidth","27")
+'jgp start
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRIORITY","MinWidth","27")
+'jgp end
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","CUSTOMER_PO","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","MinWidth","133")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","MinWidth","175")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","RTR_DESC","MinWidth","175")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","MinWidth","71")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","QTY_LEFT","MinWidth","75")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","MinWidth","71")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","1","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","2","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","3","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","4","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","5","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","6","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","7","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","8","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","9","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","10","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","seqRes","MinWidth","120")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","WO_NOTE","MinWidth","200")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NOTES","MinWidth","200")
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","FLAG_WO_PRTD","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NAME_cUSTOMER","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRODUCT_LINE","HEADERHALIGNMENT","Center")
+'jgp start
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRIORITY","HEADERHALIGNMENT","Center")
+'jgp end
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","CUSTOMER_PO","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","QTY_LEFT","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","1","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","2","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","3","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","4","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","5","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","6","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","7","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","8","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","9","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","10","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","seqRes","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","WO_NOTE","HEADERHALIGNMENT","Center")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NOTES","HEADERHALIGNMENT","Center")
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","FLAG_WO_PRTD","CELLHALIGNMENT","CENTER")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","CELLHALIGNMENT","CENTER")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","CELLHALIGNMENT","CENTER")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","CELLHALIGNMENT","CENTER")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","QTY_LEFT","CELLHALIGNMENT","RIGHT")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","CELLHALIGNMENT","CENTER")
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","CellForeColor","Blue")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","CellForeColor","Blue")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","CellForeColor","Blue")
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NOTES","CellBackColor","LightYellow")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","WO_NOTE","CellBackColor","LightYellow")
+
+'Modifications added for project 4564 to hide specific columns
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","CUSTOMER_PO","Visible",False)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","Visible",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","seqRes","Visible",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","Visible",False)
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","WO_NOTE","ReadOnly",False)
+Gui.FrmKA.GsGCKA.setColumnProperty("gvKA","NOTES","READONLY",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","FLAG_WO_PRTD","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","NAME_cUSTOMER","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","JOB","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","SUFFIX","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRODUCT_LINE","AllowEdit",false)
+'jgp start
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRIORITY","AllowEdit",false)
+'jgp end
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","CUSTOMER_PO","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DESCRIPTION","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","RTR_DESC","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","QTY_LEFT","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","1","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","2","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","3","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","4","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","5","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","6","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","7","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","8","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","9","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","10","AllowEdit",false)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","seqRes","AllowEdit",false)
+
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","VisibleIndex",6)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","RTR_DESC","VisibleIndex",5)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PART","VisibleIndex",4)
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRODUCT_LINE","VisibleIndex",4)
+'jgp start
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PRIORITY","VisibleIndex",4)
+'jgp end
+
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","PODT","DisplayCustomDatetime","d")
+Gui.FrmKA.GsGCKA.setcolumnProperty("gvKA","DATE_DUE","DisplayCustomDatetime","d")
+'jgp end
+
+'JGP format numbers to be no decimals with commas
+Gui.FrmKA.GsGCKA.SetColumnProperty("gvKA","QTY_LEFT","DisplayCustomNumeric","#,###,##0")
+
+f.Intrinsic.Control.For(v.Local.iCnt,0,v.datatable.dtKA.rowCount--,1)
+	f.Intrinsic.Control.For(v.Local.iNum,1,10,1)
+		Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA",v.Local.iNum,v.Local.iCnt,v.Local.sTemp)
+		f.Intrinsic.String.Left(v.Local.sTemp,1,v.Local.sTemp)
+'		f.Intrinsic.Control.If(v.Local.sTemp,=,"*")
+		f.Intrinsic.Control.If(v.Local.sTemp,=,"#")
+			f.Intrinsic.Math.Add(10,v.Local.iNum,v.Local.iCol)
+			Gui.FrmKA.GsGCKA.setCellAppearance("gvKA",v.Local.iCol,v.Local.iCnt,"FontStrikeOut",True)
+			'jgp start comment out next line, add one to make complete = green
+			'Gui.FrmKA.GsGCKA.setCellAppearance("gvKA",v.Local.iCol,v.Local.iCnt,"BackColor","Pink")
+			Gui.FrmKA.GsGCKA.setCellAppearance("gvKA",v.Local.iCol,v.Local.iCnt,"BackColor","Green")
+			'jgp end
+		f.Intrinsic.Control.EndIf
+		
+		'JGP start code to flag late operations as red
+		f.Intrinsic.Control.If(v.Local.sTemp,=,"!")
+			f.Intrinsic.Math.Add(10,v.Local.iNum,v.Local.iCol)
+			Gui.FrmKA.GsGCKA.setCellAppearance("gvKA",v.Local.iCol,v.Local.iCnt,"BackColor","Red")
+		f.Intrinsic.Control.EndIf
+		'jgp end
+		
+	f.Intrinsic.Control.Next(v.Local.iNum)
+f.Intrinsic.Control.Next(v.Local.iCnt)
+Gui.FrmKA.GsGCKA.MainView("gvKA")
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.loadGVKA.End
+
+Program.Sub.GsGridControlKA_RowCellClick.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+V.Local.sJOB.Declare
+V.Local.sSuf.Declare
+V.Local.sParams.Declare
+v.Local.spart.declare
+'jgp add
+v.Local.sTemp.Declare
+
+F.Intrinsic.Control.SelectCase(v.Args.Column)
+
+	F.Intrinsic.Control.CaseAny("JOB","SUFFIX","PART")
+		Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","JOB",V.Args.rowIndex,v.Local.sJOB)
+		Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","SUFFIX",v.Args.rowIndex,v.Local.sSuf)
+		Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","PART",v.Args.rowIndex,v.Local.sPart)
+		
+	'additions made for project 4564 if the PART column is selected launch the Supply and Demand screen
+	f.Intrinsic.Control.If(v.Args.column,=,"PART")
+		'if the edit radio button is selected then launch as open
+		F.Intrinsic.Control.If(v.Screen.FrmKA!optEdit.Value,=,"True")
+			F.Intrinsic.String.Build("{0}!*!{1}!*!O",v.Local.sPART,"",v.Local.sParams)
+			F.Intrinsic.Control.CallSub(lockscreen)
+			F.Global.General.CallWrapperSync(300010,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(enablescreen)
+		F.Intrinsic.Control.Else
+			'otherwise if the edit radio button is not selected launch the supply and demand without edit
+			F.Intrinsic.String.Build("{0}!*!{1}!*!A",v.Local.spart,"",v.Local.sParams)
+			F.Intrinsic.Control.CallSub(lockscreen)
+			F.Global.General.CallWrapperSync(300010,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(enablescreen)
+		F.Intrinsic.Control.EndIf
+
+	f.Intrinsic.Control.Else
+
+		F.Intrinsic.Control.If(v.Screen.FrmKA!optEdit.Value,=,"True")
+			F.Intrinsic.String.Build("{0}!*!{1}!*!O",v.Local.sJOB,v.Local.sSuf,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(lockscreen)
+			F.Global.General.CallWrapperSync(2009,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(enablescreen)
+		F.Intrinsic.Control.Else
+			F.Intrinsic.String.Build("7!*!{0}!*!{1}!*!A",v.Local.sJOB,v.Local.sSuf,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(lockscreen)
+			F.Global.General.CallWrapperSync(450000,v.Local.sParams)
+			F.Intrinsic.Control.CallSub(enablescreen)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+	
+
+
+	'JGP added code to print work order and pick slip	
+		F.Intrinsic.Control.Case("FLAG_WO_PRTD")
+			'print WO
+			Gui.FrmKA.GsGCKA.SetCellValueByColumnName("gvKA","FLAG_WO_PRTD",V.Args.RowIndex,True)
+			Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","JOB",V.Args.RowIndex,v.Local.sJob)
+			Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","SUFFIX",V.Args.RowIndex,v.Local.sSuf)
+			f.Intrinsic.String.Build("{0}!*!{1}!*!1811",V.Local.sJob,V.Local.sSuf,V.Local.sTemp)
+			F.Global.General.CallWrapperSync(900100,V.Local.sTemp)
+			'print pick list
+			Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","JOB",V.Args.RowIndex,v.Local.sJob)
+			Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","SUFFIX",V.Args.RowIndex,v.Local.sSuf)
+			F.Intrinsic.String.Build("{0}!*!{1}!*!{0}!*!{1}",V.Local.sJob,V.Local.sSuf,V.Local.sTemp)
+			F.Global.General.CallWrapperSync(900200,V.Local.sTemp)
+
+F.Intrinsic.Control.EndSelect
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.GsGridControlKA_RowCellClick.End
+
+Program.Sub.GsGridControlKA_CellValueChanged.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	v.Local.sWO.Declare
+	v.Local.sSuf.Declare
+	v.Local.sSQL.Declare
+	v.Local.sText.Declare
+
+	Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","JOB",V.Args.rowIndex,v.Local.sWO)
+	Gui.FrmKA.GsGCKA.GetCellValueByColumnName("gvKA","SUFFIX",V.Args.RowIndex,v.Local.sSuf)
+	F.Intrinsic.Control.SelectCase(v.Args.column)
+		f.Intrinsic.Control.Case("WO_NOTE")
+			F.Intrinsic.String.Left(V.Args.Value,70,v.Local.sText)
+			F.Intrinsic.String.Build("SELECT * FROM WO_USER_FLDS WHERE JOB = '{0}' AND SUFFIX = '{1}';",v.Local.sWO,v.Local.sSuf,v.Local.sSQL)
+			F.ODBC.Connection!con.OpenRecordsetRW("rstNotes",v.Local.sSQL)
+			F.Intrinsic.Control.If(V.ODBC.con!rstNotes.EOF,=,true)
+				f.ODBC.con!rstNotes.AddNew
+			f.Intrinsic.Control.EndIf
+			F.ODBC.con!rstNotes.Set!JOB(v.Local.sWO)
+			F.ODBC.con!rstNotes.Set!SUFFIX(v.Local.sSuf)
+			F.ODBC.con!rstNotes.Set!USER_6(v.Local.sText)
+			f.ODBC.con!rstNotes.Update
+			f.ODBC.con!rstNotes.Close
+		f.Intrinsic.Control.Case("NOTES")
+			F.Intrinsic.String.Build("SELECT * FROM GAB_4169_WO_NOTES WHERE JOB = '{0}' AND SUFFIX = '{1}';",V.Local.sWO,V.Local.sSuf,V.Local.sSQL)
+			F.ODBC.Connection!con.OpenRecordsetRW("rstNotes",v.Local.sSQL)
+			F.Intrinsic.Control.If(v.ODBC.con!rstNotes.EOF,=,true)
+				f.ODBC.con!rstNotes.AddNew
+			f.Intrinsic.Control.EndIf
+			f.ODBC.con!rstNotes.Set!JOB(v.Local.sWO)
+			f.ODBC.con!rstNotes.Set!SUFFIX(v.Local.sSuf)
+			f.ODBC.con!rstNotes.Set!NOTES(v.Args.value)
+			f.ODBC.con!rstNotes.Update
+			f.ODBC.con!rstNotes.Close
+	f.Intrinsic.Control.EndSelect
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.GsGridControlKA_CellValueChanged.End
+
+Program.Sub.LockScreen.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+Gui.FrmKA.GsGCKA.Visible(False)
+Gui.FrmKA.frameButtons.Enabled(False)
+Gui.FrmKA.framePermissions.Enabled(False)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.LockScreen.End
+
+Program.Sub.enableScreen.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+Gui.FrmKA.frameButtons.Enabled(True)
+Gui.FrmKA.framePermissions.Enabled(True)
+Gui.FrmKA.GsGCKA.Visible(True)
+Gui.FrmKA.lblStatus.Visible(False)
+Gui.FrmKA.pbStatus.Visible(False)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.enableScreen.End
+
+Program.Sub.checkTable.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	v.Local.bTable.Declare(Boolean)
+
+	F.ODBC.Connection!con.TableExists("GAB_4169_WO_NOTES",V.Local.bTable)
+	F.Intrinsic.Control.If(v.Local.bTable,=,false)
+		F.ODBC.Connection!Con.Execute("CREATE TABLE GAB_4169_WO_NOTES(JOB CHAR(6),SUFFIX CHAR(3),NOTES LONGVARCHAR);")
+		F.ODBC.Connection!Con.Execute("CREATE INDEX GAB_4169_WO_NOTES01 USING 1 ON GAB_4169_WO_NOTES(JOB);")
+		F.ODBC.Connection!Con.Execute("CREATE INDEX GAB_4169_WO_NOTES02 USING 2 ON GAB_4169_WO_NOTES(SUFFIX);")
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.checkTable.End
+
+Program.Sub.cmdRefresh_Click.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+F.Intrinsic.Control.If(V.Global.bLoadData)
+	F.Intrinsic.Control.CallSub(Serialize)
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.BlockEvents
+f.Intrinsic.Control.CallSub(lockscreen)
+f.Intrinsic.Control.CallSub(checkTable)
+f.Intrinsic.Control.CallSub(loaddtdvKA)
+F.Intrinsic.Control.CallSub(Deserialize)
+f.Intrinsic.Control.CallSub(enablescreen)
+F.Intrinsic.Control.UnBlockEvents
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.cmdRefresh_Click.End
+
+Program.Sub.cmdExport_Click.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	V.Local.sFileExport.Declare
+	V.Local.bExcel.Declare
+	V.Local.bFileLocked.Declare
+	V.Local.sMsg.Declare
+
+	F.Automation.MSExcel.CheckPresence(V.Local.bExcel)
+
+	F.Intrinsic.Control.If(V.Local.bExcel)
+		F.Intrinsic.String.Build("{0}\GAB_KA_Export.xlsx",V.Caller.LocalGssTempDir,V.Local.sFileExport)
+		F.Intrinsic.File.IsFileLocked(V.Local.sFileExport,V.Local.bFileLocked)
+		F.Intrinsic.Control.If(V.Local.bFileLocked)
+			F.Intrinsic.String.Build("File is already open. Please close and export again.{0}File: {1}",V.Ambient.NewLine,V.Local.sFileExport,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"File In Use")
+		F.Intrinsic.Control.Else
+			Gui.FrmKA.GsGCKA.Export(V.Local.sFileExport,"xlsx")
+			F.Intrinsic.Task.ShellExec(0,"",V.Local.sFileExport,"","",1)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Else
+		F.Intrinsic.String.Build("{0}\GAB_KA_Export.csv",V.Caller.LocalGssTempDir,V.Local.sFileExport)
+		F.Intrinsic.File.IsFileLocked(V.Local.sFileExport,V.Local.bFileLocked)
+		F.Intrinsic.Control.If(V.Local.bFileLocked)
+			F.Intrinsic.String.Build("File is already open. Please close and export again.{0}File: {1}",V.Ambient.NewLine,V.Local.sFileExport,V.Local.sMsg)
+			F.Intrinsic.UI.Msgbox(V.Local.sMsg,"File In Use")
+		F.Intrinsic.Control.Else
+			Gui.FrmKA.GsGCKA.Export(V.Local.sFileExport,"csv")
+		F.Intrinsic.Control.EndIf
+			F.Intrinsic.Task.ShellExec(0,"",V.Local.sFileExport,"","",1)
+		F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.cmdExport_Click.End
+
+Program.Sub.picGSSLogo_DblClick.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	Gui.frmWeb..Show
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.picGSSLogo_DblClick.End
+
+Program.Sub.frmWeb_UnLoad.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	Gui.frmWeb..Visible(False)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.frmWeb_UnLoad.End
+
+Program.Sub.cmdGSS_Click.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	F.Intrinsic.Task.ShellExec(0,"Open","http://www.globalshopsolutions.com/","","",0)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.cmdGSS_Click.End
+
+Program.Sub.cmdServ_Click.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	F.Intrinsic.Task.ShellExec(0,"Open","http://gss-service.com/","","",0)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.cmdServ_Click.End
+
+Program.Sub.cmdUpd_Click.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	F.Intrinsic.Task.ShellExec(0,"Open","http://gss-updates.com/","","",0)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: GCG_4564_SF_OpenJobReview_KA.g2u{0}{0}Subroutine: {1}{0}Error Occurred {2} with description {3}.",V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End 
+	F.Intrinsic.Control.EndTry
+Program.Sub.cmdUpd_Click.End
+
+Program.Sub.Serialize.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	V.Local.sSerialize.Declare
+	
+	'GvAllPOs
+	Gui.FrmKA.GsGCKA.Serialize("gvKA",V.Local.sSerialize)
+	F.Global.Registry.AddValue(V.Caller.User,V.Caller.CompanyCode,"GVKA",4564,1000,False,"Serialize",False,0,-999.0,1/1/1980,12:00:00 AM,V.Local.sSerialize)
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End
+	F.Intrinsic.Control.EndTry
+Program.Sub.Serialize.End
+
+Program.Sub.Deserialize.Start
+	F.Intrinsic.Control.Try
+	V.Local.sError.Declare
+	
+	V.Local.sSerialize.Declare
+	
+	'Delete old registry records
+	F.Global.Registry.ReadValue(V.Caller.User,V.Caller.CompanyCode,"GVKA",4564,0,5,"",V.Local.sSerialize)
+	F.Intrinsic.Control.If(V.Local.sSerialize,<>,"")
+		F.ODBC.Connection!common.OpenConnection(V.Ambient.Ccon,V.Ambient.Cuser,V.Ambient.Cpass)
+		F.ODBC.Connection!common.Execute("Delete From Gs_Registry Where Reg_ID = 4564 And Seq < 1000;")
+		F.ODBC.Connection!common.Close
+	F.Intrinsic.Control.EndIf
+
+	'gvKA
+	F.Global.Registry.ReadValue(V.Caller.User,V.Caller.CompanyCode,"GVKA",4564,1000,6,"",V.Local.sSerialize)
+	F.Intrinsic.Control.If(V.Local.sSerialize,<>,"")
+		Gui.FrmKA.GsGCKA.Deserialize(V.Local.sSerialize)
+	F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.Catch
+		F.Intrinsic.String.Build("Project: {0}{1}{1}Subroutine: {2}{1}Error Occurred {3} with description {4}{1}{1}GAB Version: {5}",V.Ambient.ScriptPath,V.Ambient.Newline,V.Ambient.CurrentSubroutine,V.Ambient.ErrorNumber,V.Ambient.ErrorDescription,V.Ambient.GABVersion,V.Local.sError)
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+		F.Intrinsic.Control.End
+	F.Intrinsic.Control.EndTry
+Program.Sub.Deserialize.End
+
+Program.Sub.Comments.Start
+${$0$}$GAB_SF_OpenJobReview_VarKA$}$Joey & AGV$}$8/26/2016 4:52:39 PM$}$False
+Program.Sub.Comments.End
